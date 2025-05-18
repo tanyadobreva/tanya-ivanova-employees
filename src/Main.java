@@ -12,15 +12,6 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws ParseException {
 
-
-
-      /*  FileDialog dialog = new FileDialog((Frame)null, "Select File to Open");
-        dialog.setMode(FileDialog.LOAD);
-        dialog.setVisible(true);
-        String theFile = dialog.getFile();
-        dialog.dispose();
-        System.out.println(theFile + " chosen.");*/
-
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(                "CSV File", "csv");
         chooser.setFileFilter(filter);
@@ -36,15 +27,13 @@ public class Main {
 
         Utils utils = new Utils();
 
-       // String filename = "/home/tanya/Desktop/employees.csv";
-
         List<Employee> employeeList =  utils.readCSVFileToArray(theFile);
         MaxPair max = utils.findHighestCollaborationInDays(employeeList);
         if (max.getEmp1() == 0 && max.getEmp2() == 0 && max.getNumOfDaysTogether()==0) {
             System.out.println("No one collaborated in this company!");
         }
         else {
-            System.out.println("Max pair is: emp1: " + max.getEmp1()+" emp2: " + max.getEmp2() + " number of days working together: " + max.getNumOfDaysTogether());
+            System.out.println("Max pair is: emp1: " + max.getEmp1()+" emp2: " + max.getEmp2() + " number of days working together: " + max.getNumOfDaysTogether() + " on project: "+ max.getProject());
         }
     }
 }

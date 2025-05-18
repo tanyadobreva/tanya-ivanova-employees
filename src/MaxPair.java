@@ -2,10 +2,21 @@ public class MaxPair {
 
     private Integer emp1;
     private Integer emp2;
+    private Integer project;
+
+    public void setProject(Integer project) {
+        this.project = project;
+    }
+
+    public Integer getProject() {
+        return project;
+    }
+
     private long numOfDaysTogether;
-    public MaxPair(Integer emp1, Integer emp2, long numDays){
+    public MaxPair(Integer emp1, Integer emp2, Integer proj, long numDays){
         this.emp1 = emp1;
         this.emp2 = emp2;
+        this.project = proj;
         this.numOfDaysTogether = numDays;
     }
 

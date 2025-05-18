@@ -21,10 +21,10 @@ public class Utils {
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 for (int i = 2; i < 4; i++) {
-                    System.out.println("Testing for NULL... " + values[i]);
+                    //System.out.println("Testing for NULL... " + values[i]);
                     if (values[i].trim().equalsIgnoreCase("null")) {
                         values[i] = currentDate.toString();
-                        System.out.println("Replaced NULL wit date: " + values[i]);
+                        System.out.println("Replaced NULL with date: " + values[i]);
                     }
                 }
                 Integer empID = Integer.parseInt(values[0].trim());
@@ -36,7 +36,6 @@ public class Utils {
                 Employee employee = new Employee(empID, projID, startDate, endDate);
                 listOfEmployees.add(employee);
             }
-            System.out.println(Arrays.deepToString(listOfEmployees.toArray()));
 
         } catch (Exception e) {
             //  Block of code to handle errors
@@ -48,7 +47,7 @@ public class Utils {
     public MaxPair findHighestCollaborationInDays (List<Employee> listOfEmp) {
 
         //holds max pair employees and their overlap result
-        MaxPair maxPair = new MaxPair(0,0,0);
+        MaxPair maxPair = new MaxPair(0,0,0, 0);
         Integer indexForPopulateDataArray=0;
 
 
@@ -57,7 +56,6 @@ public class Utils {
             for (int emp2Index = emp1Index + 1; emp2Index < listOfEmp.size(); emp2Index++) {
                 Integer FirstEmpProject = listOfEmp.get(emp1Index).getProject();
                 Integer SecondEmpProject = listOfEmp.get(emp2Index).getProject();
-                System.out.println("Printing FirstEmpProject: " + FirstEmpProject + "Printing SecondEmpProject: " + SecondEmpProject);
 
                 if (FirstEmpProject == SecondEmpProject) {
 
@@ -84,11 +82,11 @@ public class Utils {
 
                     indexForPopulateDataArray++;
 
-
-                    System.out.println("Days overlap " + daysOverlap + " for " + listOfEmp.get(emp1Index).toString() + " and " + listOfEmp.get(emp2Index).toString());
+                    System.out.println("Days overlap: " + daysOverlap + ", for employees: " + listOfEmp.get(emp1Index).getEmpID().toString() + " and " + listOfEmp.get(emp2Index).getEmpID().toString());
                     if (daysOverlap > maxPair.getNumOfDaysTogether()){
                         maxPair.setEmp1(listOfEmp.get(emp1Index).getEmpID());
                         maxPair.setEmp2(listOfEmp.get(emp2Index).getEmpID());
+                        maxPair.setProject(listOfEmp.get(emp1Index).getProject());
                         maxPair.setNumOfDaysTogether(daysOverlap);
                     }
                 }
@@ -100,9 +98,7 @@ public class Utils {
         String [][] popData = new String[size][4];
 
         for (int i = 0; i<size; i++){
-            System.out.println("In first for");
             for (int j = 0; j<4; j++){
-                System.out.println("In second for, i is "+i+" j is: "+ j);
                 popData[i][j]=populateData.get(i).get(j);
             }
         }
@@ -114,34 +110,31 @@ public class Utils {
 
     public long dateDifferenceInDays(Date EndDate, Date StartDate) throws java.text.ParseException {
 
-        System.out.println("EndDate is: "+ EndDate.toString());
-        System.out.println("StartDate is: "+ StartDate.toString());
-
         long diffInMillies = Math.abs(EndDate.getTime() - StartDate.getTime());
         long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         return diff;
     }
 
+    //this function subtracts the earlier end date from the later start date thus getting the overlap of the two periods
     public long getOverlapInDays(Date startDate1, Date startDate2, Date endDate1, Date endDate2) throws ParseException {
 
-        Date earlierEndDate;
+         Date earlierEndDate;
         Date laterStartDate;
 
         if (startDate1.compareTo(startDate2) == 1) {
-            System.out.println("StartDateOne is after StartDateTwo!");
+            //System.out.println("StartDateOne is after StartDateTwo!");
             laterStartDate = startDate1;
         } else {
-            System.out.println("StartDateOne is before StartDateTwo!");
+            //System.out.println("StartDateOne is before StartDateTwo!");
             laterStartDate = startDate2;
         }
         if (endDate1.compareTo(endDate2) == 1) {
-            System.out.println("EndDateOne is after EndDateTwo!");
+            //System.out.println("EndDateOne is after EndDateTwo!");
             earlierEndDate = endDate2;
         } else {
-            System.out.println("EndDateOne is before EndDateTwo!");
+            //System.out.println("EndDateOne is before EndDateTwo!");
             earlierEndDate = endDate1;
         }
-
         long overlapInDays = dateDifferenceInDays(earlierEndDate, laterStartDate);
         return overlapInDays;
     }
